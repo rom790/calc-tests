@@ -47,11 +47,12 @@ cmake --build .
 
 
 ## Пример отчёта
-<!-- ← Прикрепите изображение или замените путь -->
+![Результат покрытия](bc3a4524-26dd-40ce-97a7-3017a1284f8f.png)
 
 
-Используются lcov, gcov, genhtml, GTest, CMake.
 
 ##  Зависимости
+Используются lcov, gcov, genhtml, GTest, CMake.
+
 sudo apt update
 sudo apt install -y build-essential cmake lcov gcovr
