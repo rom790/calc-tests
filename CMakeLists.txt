@@ -1,18 +1,21 @@
 cmake_minimum_required(VERSION 3.10)
 project(CalcGTest)
 
-# Настройка стандарта C++17
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Создание библиотеки проекта
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    set(COVERAGE_FLAGS "-g -O0 --coverage")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COVERAGE_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+endif()
+
 add_library(Calclib
     ICalculator.h
     SimpleCalculator.h
     SimpleCalculator.cpp
 )
 
-# Загрузка Google Test
 include(FetchContent)
 FetchContent_Declare(
     googletest
@@ -21,20 +24,18 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-# Включение системы тестирования
 enable_testing()
 
-# Создание тестового исполняемого файла
 add_executable(
     Calculator_test
     CalculatorTest.cpp
     InMemoryHistory.cpp
 )
 
-# Линковка тестов с библиотекой и Google Test
 target_link_libraries(
     Calculator_test
     Calclib
     GTest::gtest_main
     GTest::gmock_main
+    pthread
 )
